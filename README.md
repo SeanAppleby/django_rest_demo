@@ -13,7 +13,7 @@ An example post request to create a comment on the same page could be done like 
 curl -H "Content-Type: application/json" -X POST -d {"username":"test_user","text":"test comment","content_url":"pop-quiz","ip":"1.160.10.240"} http://<base_url>/comment-api
 ```
 ## Throttling
-It also includes a custom throttling implementation that locks out users for posting duplicate comments within a set timeframe from their posting for an adjustable amount of time, locks out users for a separately adjustable amount of time for posting above an some number of comments within an independent timeframe, and rate limits get requests.
+It also includes a custom throttling implementation that locks out users for posting duplicate comments within a set timeframe from their posting for an adjustable amount of time, locks out users for a separately adjustable amount of time for posting above some number of comments within an independent timeframe, and rate limits get requests.
 
 - Throttle settings are stored in the database so that they can be adjusted by an admin.
 
