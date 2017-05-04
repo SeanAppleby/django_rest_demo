@@ -1,0 +1,18 @@
+[
+  {
+    "model": "comment_api.Setting",
+    "pk": "duplicate_settings",
+    "fields": {
+      "description": "(if a user posts a duplicate comment within this amount of time)/(they are locked out for this amount of time)",
+      "value": "24-s/1-m"
+    }
+  },
+  {
+    "model": "comment_api.Setting",
+    "pk": "post_rate_settings",
+    "fields": {
+      "description": "(if a user posts this many comments)/(in this time period)/(they're locked out for this amount of time)",
+      "value": "2/1-m/5-m"
+    }
+  }
+]
