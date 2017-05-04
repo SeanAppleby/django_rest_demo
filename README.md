@@ -1,7 +1,7 @@
 # Django Rest Framework demo
 
 ## Comment API
-This project includes an REST api app which has a get endpoint which returns all comments for a page by content url, such as '/comment-api/<content_url>', and a post endpoint, at '/comment-api', for posting new comments for a content url.
+This project includes a REST api app which has a get endpoint which returns all comments for a page by content url, such as '/comment-api/<content_url>', and a post endpoint, at '/comment-api', for posting new comments for a content url.
 
 An example get request to retrieve all comments on a page called "pop-quiz" could be done with curl as follows:
 ```
