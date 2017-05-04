@@ -20,12 +20,3 @@ class DevCommentSerializer(serializers.Serializer):
         """
         validated_data.pop('ip', None)
         return Comment.objects.create(**validated_data)
-    def update(self, instance, validated_data):
-        """
-        Update and return an existing `Snippet` instance, given the validated data.
-        """
-        instance.username= validated_data.get('username', instance.username)
-        instance.text = validated_data.get('text', instance.text)
-        instance.content_url = validated_data.get('text', instance.content_url)
-        instance.save()
-        return instance

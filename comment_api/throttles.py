@@ -5,6 +5,7 @@ import time
 
 from rest_framework import throttling
 from rest_framework.exceptions import Throttled
+from django.core.exceptions import ImproperlyConfigured
 from django.core.cache import cache as default_cache
 
 from comment_api.models import Comment, Setting
@@ -41,27 +42,29 @@ class PostThrottle(throttling.BaseThrottle):
         """
         duplicate_settings = Setting.objects.get(name='duplicate_settings').value
         duplicate_setting_list = duplicate_settings.split('/')
-        self.duplicate_rate = self.parse_setting_time(duplicate_setting_list[0])
-        self.duplicate_lockout = self.parse_setting_time(duplicate_setting_list[1])
+        self.duplicate_rate = self.parse_setting_time(duplicate_setting_list[0], "duplicate_rate")
+        self.duplicate_lockout = self.parse_setting_time(duplicate_setting_list[1], "duplicate_lockout")
 
         post_rate_settings = Setting.objects.get(name='post_rate_settings').value
         post_rate_setting_list = post_rate_settings.split('/')
         self.post_rate_num = int(post_rate_setting_list[0])
-        self.post_rate_time = self.parse_setting_time(post_rate_setting_list[1])
-        self.post_rate_lockout = self.parse_setting_time(post_rate_setting_list[2])
+        self.post_rate_time = self.parse_setting_time(post_rate_setting_list[1], "post_rate_time")
+        self.post_rate_lockout = self.parse_setting_time(post_rate_setting_list[2], "post_rate_lockout")
 
-    def parse_setting_time(self, setting_value):
+    def parse_setting_time(self, setting_value, setting_name):
         """
         This expects a format like "24-h"
         """
-        print("setting_value: " + setting_value)
         time_symbols = {'s': 1, 'm': 60, 'h': 3600, 'd': 86400}
-        values = setting_value.split('-')
-        multiple = values[0]
-        symbol = values[1]
-        duration = int(time_symbols[symbol] * int(multiple))
-        print("duration: " + str(duration))
-        return duration
+        try:
+            values = setting_value.split('-')
+            multiple = values[0]
+            symbol = values[1]
+            duration = int(time_symbols[symbol] * int(multiple))
+            return duration
+        except:
+            error_detail = 'The field for ' + setting_name + ' is not of the correct format.\nThe throttler expects a format like \"24-h\"'
+            raise ImproperlyConfigured(error_detail)
 
 
     def is_recent_duplicate(self, request):
@@ -89,29 +92,19 @@ class PostThrottle(throttling.BaseThrottle):
         while self.history and self.history[-1][0] <= self.now - float(self.post_rate_time):
             if self.history[-1][1] == 'post':
                 self.history.pop()
-        # print("self.now: " + str(self.now))
-        # print("post_rate_num: " + str(self.post_rate_num))
-        # print("len(self.history): " + str(len(self.history)))
         if len(self.history) >= self.post_rate_num:
             return self.throttle_failure()
 
-        if self.history:
-            print(self.history[0][1])
         if self.history and self.history[0][1] == 'duplicate':
-            print("Posted a duplicate recently")
             time_remaining = self.history[0][0] - (self.now - float(self.duplicate_lockout))
-            print("time_remaining: " + str(time_remaining))
             if time_remaining > 0:
-                print("and you're locked")
                 raise Throttled(detail="You posted a duplicate comment recently.", wait=time_remaining)
             else:
-                print('and you\'re free')
                 self.history.pop(0)
 
         if self.is_recent_duplicate(request):
             self.history.insert(0, [self.now, 'duplicate'])
             self.cache.set(self.key, self.history, float(self.duplicate_lockout))
-            print(self.history)
             raise Throttled(detail=("that's a duplicate"), wait=(self.duplicate_lockout))
 
         return self.throttle_success()
@@ -129,7 +122,6 @@ class PostThrottle(throttling.BaseThrottle):
         """
         Called when a request to the API has failed due to throttling.
         """
-        print("throttled")
         return False
 
         # raise Throttled(detail=(

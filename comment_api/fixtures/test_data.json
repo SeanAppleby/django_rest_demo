@@ -1,0 +1,28 @@
+[
+    {
+        "model": "comment_api.Setting",
+        "fields": {
+            "name": "duplicate_settings",
+            "description": "(if a user posts a duplicate comment within this amount of time)/(they are locked out for this amount of time)",
+            "value": "24-h/1-m"
+        }
+    },
+    {
+        "model": "comment_api.Setting",
+        "fields": {
+            "name": "post_rate_settings",
+            "description": "(if a user posts more than this many comments)/(in this time period)/(they're locked out for this amount of time)",
+            "value": "2/1-m/5-m"
+        }
+    },
+    {
+        "model": "comment_api.Comment",
+        "fields": {
+            "username": "test_user",
+            "text": "test_comment",
+            "content_url": "test_content",
+            "created_at": "2017-03-01T13:20:30+04:00"
+        }
+    }
+
+]

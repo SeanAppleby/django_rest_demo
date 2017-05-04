@@ -4,6 +4,6 @@ from views import *
 
 
 urlpatterns = [
-	url(r'^create_comment$', CommentCreateView.as_view()),
-	url(r'^list_comments/(?P<content_url>.+)$', CommentListView.as_view()),
+	url(r'^comment-api$', CommentCreateView.as_view()),
+	url(r'^comment-api/(?P<content_url>.+)$', CommentListView.as_view()),
 ]
