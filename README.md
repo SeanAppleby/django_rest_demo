@@ -8,7 +8,7 @@ An example get request to retrieve all comments on a page called "pop-quiz" coul
 curl <base_url>/comment-api/pop-quiz"
 ```
 
-An example post request for the same page could be done like this:
+An example post request to create a comment on the same page could be done like this:
 ```
 curl -H "Content-Type: application/json" -X POST -d {"username":"test_user","text":"test comment","content_url":"pop-quiz","ip":"1.160.10.240"} http://<base_url>/comment-api
 ```
