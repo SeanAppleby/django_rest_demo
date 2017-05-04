@@ -16,6 +16,14 @@
         }
     },
     {
+        "model": "comment_api.Setting",
+        "fields": {
+            "name": "combined_throttle_rate",
+            "description": "the maximum number of requests per unit of time",
+            "value": "20/m"
+        }
+    },
+    {
         "model": "comment_api.Comment",
         "fields": {
             "username": "test_user",

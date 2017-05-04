@@ -84,6 +84,5 @@ class ThrottleAPITests(APITestCase):
         client = APIClient()
         for i in range(0, 19):
             response = client.get('/comment-api/test_content')
-            print(response)
         response= client.post('/comment-api', {'username': 'test-user', 'text': "test text_1", 'content_url': 'test-url', 'ip':'1.160.10.240' }, format='json')
         self.assertEqual(response.status_code, 429)

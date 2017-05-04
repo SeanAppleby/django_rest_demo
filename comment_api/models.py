@@ -17,8 +17,6 @@ class Comment(models.Model):
     class Meta:
         ordering = ['created_at']
 
-class Page(models.Model):
-    slug = models.SlugField(unique=True)
 
 class Setting(models.Model):
     """
