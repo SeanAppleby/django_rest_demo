@@ -9,6 +9,10 @@ from comment_api.throttles import *
 
 
 class CommentListView(generics.ListAPIView):
+    """
+    Basic api view for listing comments by a given content url.
+    example: "curl <base_url>/comment-api/pop-quiz" will return all comments for pop-quiz content
+    """
     serializer_class = CommentSerializer
     throttle_class = UserRateThrottle
     def get_queryset(self):
@@ -17,6 +21,10 @@ class CommentListView(generics.ListAPIView):
 
 
 class CommentCreateView(generics.CreateAPIView):
+    """
+    Basic api view for submitting comments through the endpoint  <base_url>/comment-api
+    example data: {"username":"test_user","text":"test comment","content_url":"pop-quiz","ip":"1.160.10.240"}
+    """
     serializer_class = DevCommentSerializer
     throttle_classes = (PostThrottle,)
 

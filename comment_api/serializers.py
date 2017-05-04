@@ -16,7 +16,7 @@ class DevCommentSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         """
-        Create and return a new `Snippet` instance, given the validated data.
+        Create a new Comment
         """
         validated_data.pop('ip', None)
         return Comment.objects.create(**validated_data)
