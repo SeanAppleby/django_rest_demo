@@ -5,7 +5,7 @@ This project includes an REST api app which has a get endpoint which returns all
 
 An example get request to retrieve all comments on a page called "pop-quiz" could be done with curl as follows:
 ```
-curl <base_url>/comment-api/pop-quiz"
+curl http://<base_url>/comment-api/pop-quiz"
 ```
 
 An example post request to create a comment on the same page could be done like this:
