@@ -8,7 +8,9 @@ It also includes a custom throttling implementation that locks out users for pos
 
 Throttle settings are stored in the database so that they can be adjusted by an admin.
 
-Set initial setting values by loading the included fixture like so:
+If you want to look at the admin there is an admin account of {demo_admin: demo_password}.
+
+If necessary, you can set initial setting values by loading the included fixture like so:
 ```
 python manage.py loaddata initial_data.json
 ```
